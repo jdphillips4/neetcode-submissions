@@ -1,0 +1,30 @@
+class Solution:
+    def partition(self, s: str) -> List[List[str]]:
+        # odd or even, look for palindrome,
+        # base case all are 1 char
+        # then at each of them see if there is odd or even plaindrome around it 
+        # BUILd tree: choose first partition, is it palindrome, then next partition, etc. 
+        
+        res = []
+        partition = []
+        def dfs(i):
+            if i >= len(s):
+                res.append(partition.copy())
+                return
+            
+            # check if palindrome then reecurse
+            for j in range(i, len(s)):
+                if self.isPalindrome(s, i, j):
+                    partition.append(s[i:j + 1])
+                    dfs(j+1)
+                    partition.pop()
+        dfs(0)
+        return res
+            
+    def isPalindrome(self, s, l, r):
+            while l < r:
+                if s[l] != s[r]:
+                    return False
+                l, r = l +1, r-1
+            return True
+
